@@ -22,7 +22,7 @@ inputs:
   exclude_list:
     description: 'Comma-separated list of files and directories to exclude from sync'
     required: false
-    default: '.git, .gitmodules'
+    default: '.git, .github, .gitmodules, node_modules'
   ssh_key:
     description: 'SSH key for remote repository'
     required: true
