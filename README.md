@@ -21,7 +21,7 @@ name: Deploy to Pantheon Live
 on:
   push:
     branches:
-      - production
+      - develop
 
 jobs:
   build-and-sync:
@@ -31,14 +31,13 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Sync to Remote Repository
-      uses: alleyinteractive/action-deploy-to-remote-repository@v1
+      uses: padillaco/action-deploy-to-remote-repository@main
       with:
         remote_repo: 'ssh://user@server/example.git'
         remote_branch: 'master' # Notable that this differs from 'production'
-        destination_directory: 'wp-content/'
+        destination_directory: '/'
         exclude_list: '.git, .github, .gitmodules, node_modules'
-        pantheon: 'true'
-        ssh-key: ${{ secrets.REMOTE_REPO_SSH_KEY }}
+        ssh_key: ${{ secrets.REMOTE_REPO_SSH_KEY }}
 ```
 
 ### `.deployignore`
@@ -48,14 +47,6 @@ with a root-level `.deployignore` file if one is found. This is useful for
 excluding files from the deployment that would have previously been ignored by
 version control (such as built assets and Composer dependencies). The
 `.deployignore` syntax is the same as a normal `.gitignore` file.
-
-### Pantheon Mode
-
-Passing `pantheon: 'true'` to the action will enable "Pantheon" mode. This will
-allow the action to copy the `.pantheon/pantheon.yml` file (if it exists) to the
-root of the repository as `pantheon.yml`. This is useful for projects that are
-rooted at `wp-content` but still want to version control their Pantheon
-configuration.
 
 ## Inputs
 
@@ -99,18 +90,10 @@ configuration.
 - Accepts a string. (e.g. `.git, .gitmodules`)
 - Defaults to `.git, .gitmodules`.
 
-### `ssh-key`
+### `ssh_key`
 
 - Specify the SSH key to use for the remote repository (requires write access).
 - Required.
-
-### `pantheon`
-
-- Determine if this is a deployment for a Pantheon repository. Supports
-  migrating `.pantheon/pantheon.yml` to `pantheon.yml` and
-  `.pantheon/private` to `private` in the root of the repository.
-- Accepts a string. (e.g. `true` or `false`)
-- Defaults to `false`.
 
 ## Changelog
 
@@ -119,11 +102,10 @@ recently.
 
 ## Credits
 
-This project is actively maintained by [Alley
-Interactive](https://github.com/alleyinteractive).
+This project was created by [Alley Interactive](https://github.com/alleyinteractive).
 
 - [Ben Bolton](https://github.com/benpbolton)
-- [All Contributors](../../contributors)
+- [All Contributors](https://github.com/alleyinteractive/action-deploy-to-remote-repository/graphs/contributors)
 
 ## License
 
