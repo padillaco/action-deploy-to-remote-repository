@@ -27,7 +27,12 @@ mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 
 # Write the private key to a file, interpret any escaped newlines
-echo -e "${SSH_KEY}" > ~/.ssh/private_key
+if [ "${SSH_PRIVATE_KEY}" != "" ]; then
+	echo -e "${SSH_PRIVATE_KEY}" > ~/.ssh/private_key
+elif [ "${SSH_KEY}" != "" ]; then
+	echo -e "${SSH_KEY}" > ~/.ssh/private_key
+fi
+
 chmod 600 ~/.ssh/private_key
 
 # Clone remote repository
