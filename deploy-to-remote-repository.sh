@@ -35,8 +35,6 @@ fi
 
 chmod 600 ~/.ssh/private_key
 
-echo "git clone --branch \"${REMOTE_BRANCH}\" \"${REMOTE_REPO}\" \"${REMOTE_REPO_DIR}\" --depth 1"
-
 # Clone remote repository
 git clone --branch "${REMOTE_BRANCH}" "${REMOTE_REPO}" "${REMOTE_REPO_DIR}" --depth 1
 
