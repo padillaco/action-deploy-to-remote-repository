@@ -36,7 +36,9 @@ fi
 chmod 600 ~/.ssh/private_key
 
 # Clone remote repository
-git clone --branch "${REMOTE_BRANCH}" "${REMOTE_REPO}" "${REMOTE_REPO_DIR}" --depth 1
+git clone "${REMOTE_REPO}" "${REMOTE_REPO_DIR}" --depth 1
+git config alias.checkoutalt '!f() { git checkout $1 2>/dev/null || git checkout -b $1; }; f' 
+git checkoutalt "${REMOTE_BRANCH}"
 
 # Rsync current repository to remote repository. Split the exclude list into an
 # array by splitting on commas.
