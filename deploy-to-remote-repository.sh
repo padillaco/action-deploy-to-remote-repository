@@ -37,8 +37,6 @@ chmod 600 ~/.ssh/private_key
 
 # Clone remote repository
 git clone "${REMOTE_REPO}" "${REMOTE_REPO_DIR}" --depth 1 --config init.defaultBranch=main
-git config alias.checkoutalt '!f() { git checkout $1 2>/dev/null || git checkout -b $1; }; f' 
-git checkoutalt "${REMOTE_BRANCH}"
 
 # Rsync current repository to remote repository. Split the exclude list into an
 # array by splitting on commas.
@@ -71,6 +69,12 @@ cd "${REMOTE_REPO_DIR}" || exit 1
 REPO_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F '/' '{print $2}')
 git config user.name "${REPO_NAME} GitHub Action"
 git config user.email "action@github.com"
+
+git config --get init.defaultBranch
+
+# Checkout or create a branch if it doesn't exist
+git config alias.checkoutalt '!f() { git checkout $1 2>/dev/null || git checkout -b $1; }; f' 
+git checkoutalt "${REMOTE_BRANCH}"
 
 git add -A
 git status
