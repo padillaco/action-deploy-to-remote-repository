@@ -35,16 +35,8 @@ fi
 
 chmod 600 ~/.ssh/private_key
 
-# Set git user.name to include repository name
-REPO_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F '/' '{print $2}')
-git config user.name "${REPO_NAME} GitHub Action"
-git config user.email "action@github.com"
-
-# Set default branch name
-git config --global init.defaultBranch main
-
 # Clone remote repository
-git clone "${REMOTE_REPO}" "${REMOTE_REPO_DIR}" --depth 1
+git clone "${REMOTE_REPO}" "${REMOTE_REPO_DIR}" --depth 1 --config init.defaultBranch=main
 git config alias.checkoutalt '!f() { git checkout $1 2>/dev/null || git checkout -b $1; }; f' 
 git checkoutalt "${REMOTE_BRANCH}"
 
@@ -74,6 +66,11 @@ fi
 
 # Commit and push changes to remote repository
 cd "${REMOTE_REPO_DIR}" || exit 1
+
+# Set git user.name to include repository name
+REPO_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F '/' '{print $2}')
+git config user.name "${REPO_NAME} GitHub Action"
+git config user.email "action@github.com"
 
 git add -A
 git status
