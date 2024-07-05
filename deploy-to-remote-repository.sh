@@ -36,7 +36,7 @@ fi
 chmod 600 ~/.ssh/private_key
 
 # Clone remote repository
-git clone "${REMOTE_REPO}" "${REMOTE_REPO_DIR}" --depth 1 --config init.defaultBranch=main
+git clone "${REMOTE_REPO}" "${REMOTE_REPO_DIR}" --depth 1 --config init.defaultBranch="${REMOTE_BRANCH}"
 
 # Rsync current repository to remote repository. Split the exclude list into an
 # array by splitting on commas.
