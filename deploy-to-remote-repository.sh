@@ -70,8 +70,6 @@ REPO_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F '/' '{print $2}')
 git config user.name "${REPO_NAME} GitHub Action"
 git config user.email "action@github.com"
 
-git config --get init.defaultBranch
-
 # Checkout or create a branch if it doesn't exist
 git config alias.checkoutalt '!f() { git checkout $1 2>/dev/null || git checkout -b $1; }; f' 
 git checkoutalt "${REMOTE_BRANCH}"
@@ -82,4 +80,4 @@ git commit --allow-empty -a --file="${SCRATCH}/commit.message"
 
 # Push the new branch to the remote repository
 echo "Pushing to ${REMOTE_REPO}@${REMOTE_BRANCH}"
-git push -u origin
+git push -u origin "${REMOTE_BRANCH}"
