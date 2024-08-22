@@ -26,12 +26,17 @@ inputs:
   remote_branch:
     description: 'Remote branch to clone and push'
     required: false
+  force_push:
+    description: 'Force push the latest commit'
+    required: false
+    default: 'false'
 runs:
   using: 'composite'
   steps:
     - name: Install rsync
       run: sudo apt-get install -y rsync
       shell: bash
+    
     - id: deploy-to-remote-repository
       env:
         BASE_DIRECTORY: ${{ inputs.base_directory }}
@@ -42,5 +47,6 @@ runs:
         REMOTE_REPO_DIR: /tmp/remote_repo
         REMOTE_BRANCH: ${{ inputs.remote_branch != '' && inputs.remote_branch || github.ref_name }}
         SSH_PRIVATE_KEY: ${{ inputs.ssh_private_key }}
+        FORCE_PUSH: ${{ inputs.force_push }}
       run: ${{ github.action_path }}/deploy-to-remote-repository.sh
       shell: bash

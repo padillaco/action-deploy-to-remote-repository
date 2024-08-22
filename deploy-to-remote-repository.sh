@@ -44,6 +44,7 @@ IFS=', ' read -r -a EXCLUDES <<< "$EXCLUDE_LIST"
 
 # Build the rsync exclude options
 EXCLUDE_OPTIONS="--exclude=.git "
+
 for EXCLUDE in "${EXCLUDES[@]}"; do
 	EXCLUDE_OPTIONS+="--exclude=${EXCLUDE} "
 done
@@ -78,6 +79,11 @@ git add -A
 git status
 git commit --allow-empty -a --file="${SCRATCH}/commit.message"
 
-# Push the new branch to the remote repository
 echo "Pushing to ${REMOTE_REPO}@${REMOTE_BRANCH}"
-git push -u origin "${REMOTE_BRANCH}"
+
+# Push the new branch to the remote repository
+if [ "${FORCE_PUSH}" == "true" ]; then
+	git push -u -f origin "${REMOTE_BRANCH}"
+else
+	git push -u origin "${REMOTE_BRANCH}"
+fi
